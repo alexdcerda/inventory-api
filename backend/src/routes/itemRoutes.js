@@ -6,22 +6,19 @@ import {
   updateItem,
   deleteItem
 } from '../controllers/itemController.js';
+import { isAuthenticated, restrictTo } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// GET all items
+// Public routes - anyone can access
 router.get('/', getAllItems);
-
-// GET a specific item
 router.get('/:id', getItemById);
 
-// POST create a new item
-router.post('/', createItem);
+// Protected routes - only authenticated users can access
+router.post('/', isAuthenticated, createItem);
+router.put('/:id', isAuthenticated, updateItem);
 
-// PUT update an item
-router.put('/:id', updateItem);
-
-// DELETE an item
-router.delete('/:id', deleteItem);
+// Admin-only routes
+router.delete('/:id', isAuthenticated, restrictTo('admin'), deleteItem);
 
 export default router;

@@ -1,6 +1,18 @@
 -- Drop tables if they exist
 DROP TABLE IF EXISTS items;
 DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS users;
+
+-- Create users table
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(20) DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Create categories table
 CREATE TABLE categories (
@@ -42,3 +54,11 @@ INSERT INTO items (name, description, price, quantity, category_id, sku) VALUES
   ('Cookbook', 'Collection of gourmet recipes', 24.99, 50, 3, 'BOOK-002'),
   ('Blender', 'High-speed blender for smoothies and more', 89.99, 30, 4, 'HOME-001'),
   ('Coffee Maker', 'Programmable coffee maker with timer', 59.99, 40, 4, 'HOME-002');
+
+-- Insert sample admin user (password: admin123)
+INSERT INTO users (username, email, password, role) VALUES
+  ('admin', 'admin@example.com', '$2a$10$rRsVdYs.u/YrKXgRjX5JkOL.raxtTRhJA1r9ByXXBVTjg/ezzAA/y', 'admin');
+
+-- Insert sample regular user (password: user123)
+INSERT INTO users (username, email, password, role) VALUES
+  ('user', 'user@example.com', '$2a$10$rrwKcOoGYFRF2SZ1UgvUd.xQJEyN3ACEJk3eeGz9xwm35KI5XpTXi', 'user');

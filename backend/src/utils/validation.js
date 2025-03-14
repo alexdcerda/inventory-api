@@ -41,3 +41,79 @@ export const validateItem = (item) => {
   
   return errors;
 };
+
+// Validate user registration input
+export const validateUser = (user) => {
+  const errors = [];
+  
+  // Validate username
+  if (!user.username) {
+    errors.push('Username is required');
+  } else if (user.username.length < 3) {
+    errors.push('Username must be at least 3 characters long');
+  }
+  
+  // Validate email
+  if (!user.email) {
+    errors.push('Email is required');
+  } else {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user.email)) {
+      errors.push('Please provide a valid email address');
+    }
+  }
+  
+  // Validate password
+  if (!user.password) {
+    errors.push('Password is required');
+  } else if (user.password.length < 8) {
+    errors.push('Password must be at least 8 characters long');
+  }
+  
+  // Validate password confirmation
+  if (user.passwordConfirm !== undefined && user.password !== user.passwordConfirm) {
+    errors.push('Passwords do not match');
+  }
+  
+  return errors;
+};
+
+// Validate login input
+export const validateLogin = (credentials) => {
+  const errors = [];
+  
+  if (!credentials.username) {
+    errors.push('Username is required');
+  }
+  
+  if (!credentials.password) {
+    errors.push('Password is required');
+  }
+  
+  return errors;
+};
+
+// Validate password change
+export const validatePasswordChange = (passwords) => {
+  const errors = [];
+  
+  if (!passwords.currentPassword) {
+    errors.push('Current password is required');
+  }
+  
+  if (!passwords.newPassword) {
+    errors.push('New password is required');
+  } else if (passwords.newPassword.length < 8) {
+    errors.push('New password must be at least 8 characters long');
+  }
+  
+  if (passwords.newPassword !== passwords.confirmNewPassword) {
+    errors.push('New passwords do not match');
+  }
+  
+  if (passwords.currentPassword === passwords.newPassword) {
+    errors.push('New password must be different from current password');
+  }
+  
+  return errors;
+};
