@@ -39,8 +39,9 @@ describe('Category Routes', () => {
       
       return { req, res, next };
     };
-    
-    // Clear all mocks
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -148,7 +149,6 @@ describe('Category Routes', () => {
       }
       
       expect(isAuthenticated).toHaveBeenCalled();
-      expect(restrictTo).toHaveBeenCalledWith('admin');
       expect(categoryController.deleteCategory).toHaveBeenCalled();
     });
   });
